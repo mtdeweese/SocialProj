@@ -1,12 +1,14 @@
 import preprocess
+import NewDataPreprocess
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 import tensorflow as tf
 import torch
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
-filepath = "data.csv"
-
+#filepath = "data.csv"
+trainpath = "train.csv"
+testpath = "test.csv"
 
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
@@ -30,7 +32,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Prepare the datasets
-train, test = preprocess.get_datasets_split(filepath, tokenizer)
+train = NewDataPreprocess.get_dataset(trainpath, tokenizer)
+test = NewDataPreprocess.get_dataset(testpath, tokenizer)
+#train, test = preprocess.get_datasets_split(filepath, tokenizer)
 
 # Training arguments
 training_args = TrainingArguments(

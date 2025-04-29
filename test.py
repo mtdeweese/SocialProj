@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from scipy.special import softmax
 import numpy as np
 import pandas as pd
+import NewDataPreprocess
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
@@ -20,8 +21,9 @@ model = AutoModelForSequenceClassification.from_pretrained(model_path, num_label
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-filepath = "data.csv"
-_, test = preprocess.get_datasets_split(filepath, tokenizer)
+#filepath = "data.csv"
+#_, test = preprocess.get_datasets_split(filepath, tokenizer)
+test = NewDataPreprocess.get_dataset("test.csv", tokenizer)
 
 
 def compute_metrics(eval_pred):
